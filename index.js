@@ -1,9 +1,23 @@
 const pug = require('pug')
+const fs = require('node:fs')
+const path = require('node:path')
 
 
-const resume = pug.compileFile('templates/index.pug')
+const DIR_TEMPLATES = 'templates'
+const DIR_DIST = 'dist'
 
-console.log(resume({
-  name: 'Spike'
-}))
+function buildResume() {
+  try {
+    const fd = fs.openSync(path.join(DIR_DIST, 'resume.html'), 'w')
+    const resume = pug.compileFile(path.join(DIR_TEMPLATES, 'index.pug'))
 
+    fs.writeSync(fd, resume({
+      name: 'Spike'
+    }))
+  }
+  catch (err) {
+    console.error(err)
+  }
+}
+
+buildResume()
