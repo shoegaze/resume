@@ -8,6 +8,11 @@ const DIR_DIST = 'dist'
 
 function buildResume() {
   try {
+    // Create `dist` dir if it does not exist
+    if (!fs.existsSync(DIR_DIST)) {
+      fs.mkdirSync(DIR_DIST)
+    }
+
     const fd = fs.openSync(path.join(DIR_DIST, 'resume.html'), 'w')
     const resume = pug.compileFile(path.join(DIR_TEMPLATES, 'index.pug'))
 
