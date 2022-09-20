@@ -1,10 +1,11 @@
-const pug = require('pug')
 const fs = require('node:fs')
 const path = require('node:path')
+const pug = require('pug')
 
 
-const DIR_TEMPLATES = 'templates'
-const DIR_DIST = 'dist'
+const DIR_TEMPLATES = path.join(__dirname, 'templates')
+const DIR_DIST = path.join(__dirname, 'dist')
+
 
 function buildResume() {
   try {
