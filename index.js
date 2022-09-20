@@ -13,8 +13,13 @@ function buildResume() {
       fs.mkdirSync(DIR_DIST)
     }
 
+    // Build resume
     const fd = fs.openSync(path.join(DIR_DIST, 'resume.html'), 'w')
-    const resume = pug.compileFile(path.join(DIR_TEMPLATES, 'index.pug'))
+    const resume = pug.compileFile(
+      path.join(DIR_TEMPLATES, 'index.pug'),
+      {
+        pretty: true
+      })
 
     fs.writeSync(fd, resume({
       name: 'Spike'
