@@ -8,13 +8,13 @@ const DIR_DIST = path.join(__dirname, 'dist')
 
 
 function buildResume() {
-  try {
-    // Create `dist` dir if it does not exist
+  function makeDist() {
     if (!fs.existsSync(DIR_DIST)) {
       fs.mkdirSync(DIR_DIST)
     }
+  }
 
-    // Build resume
+  function build() {
     const fd = fs.openSync(path.join(DIR_DIST, 'resume.html'), 'w')
     const resume = pug.compileFile(
       path.join(DIR_TEMPLATES, 'index.pug'),
@@ -22,9 +22,21 @@ function buildResume() {
         pretty: true
       })
 
-    fs.writeSync(fd, resume({
+    const output = resume({
       name: 'Spike'
-    }))
+    })
+
+    return [fd, output]
+  }
+
+  function writeOutput(fd, output) {
+    fs.writeSync(fd, output)
+  }
+
+  try {
+    makeDist();
+    const [fd, output] = build();
+    writeOutput(fd, output);
   }
   catch (err) {
     console.error(err)
